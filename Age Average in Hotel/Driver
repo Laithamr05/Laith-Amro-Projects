@@ -1,0 +1,30 @@
+public class Driver{
+public static void main(String[] args) {
+        int[][] building = {
+            {3, 4, 5},   // Floor 1
+            {12, 15, 14, 10, 11},   // Floor 2
+            {7, 8},   // Floor 3
+            {20}    // Floor 4
+        };
+
+        fillArray(building);
+
+        double currentMax = calculateAvg(building, 0);
+        int currentMaxIndex = 0;
+        
+        for (int i = 0; i < building.length; i++) {
+            double avg = calculateAvg(building, i);
+            avg = Math.round(avg * 10.0) / 10.0;
+            System.out.println("Average age for Floor #" + (i + 1) + " is: " + avg);
+
+            if (avg > currentMax) {
+                currentMax = avg;
+                currentMaxIndex = i;
+            }
+        }
+
+        currentMax = Math.round(currentMax * 10.0) / 10.0;
+        System.out.println("\nThe floor with the highest average age is Floor #" + (currentMaxIndex + 1) +
+                " with an average age of " + currentMax);
+    }
+}
