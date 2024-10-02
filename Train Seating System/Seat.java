@@ -1,6 +1,3 @@
-
-
-
 public class Seat {
 
 	private int seatNumber;
@@ -39,22 +36,22 @@ public class Seat {
 	}
 
 	public static boolean isValid(int seatNumber) {
-		if (seatNumber < 92 || seatNumber > 1 || seatNumber != 3 || seatNumber != 4 || seatNumber != 89
-				|| seatNumber != 90)
+		if (seatNumber <= 92 && seatNumber >= 1 && seatNumber != 3 && seatNumber != 4 && seatNumber != 89
+				&& seatNumber != 90)
 			return true;
 		return false;
 	}
 
 	public static int getRow(int seatNumber) {
 		if (isValid(seatNumber))
-			return (seatNumber-1) / 4;
+			return (seatNumber - 1) / 4;
 		return -1;
 	}
 
-	public static int getColoumn(int seatNumber){
+	public static int getColoumn(int seatNumber) {
 		if (isValid(seatNumber))
-			return (seatNumber-1) % 4;
+			return (seatNumber - 1) % 4;
 		return -1;
-    }
+	}
 
 }
