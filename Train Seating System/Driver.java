@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.Scanner;
 
@@ -38,17 +37,28 @@ public class Driver {
 					}
 					System.out.println();
 					System.out.println("Passenger file printed successfully.");
-				} catch (IOException e) {
+				} catch (Exception e) {
 					System.out.println("Error reading passengers file");
 				}
 
 				break;
 
 			case 2:
-				System.out.print("Enter seat number to reserve: ");
+				System.out.println("Enter seat number to reserve:");
+				while (!scanner.hasNextInt()) {
+					System.out.println("Please enter a valid seat number");
+					System.out.println("Enter seat number to reserve:");
+					scanner.nextLine();
+				}
 				int seatNumber = scanner.nextInt();
+				while (!Seat.isValid(seatNumber)) {
+					System.out.println("Please enter a valid seat number");
+					System.out.println("Enter seat number to reserve:");
+					seatNumber = scanner.nextInt();
+					scanner.nextLine();
+				}
 				scanner.nextLine();
-				System.out.print("Enter passenger name: ");
+				System.out.println("Enter passenger name:");
 				String passengerName = scanner.nextLine();
 
 				if (train.reserveSeat(seatNumber, passengerName)) {
@@ -56,10 +66,11 @@ public class Driver {
 				} else {
 					System.out.println("Seat reservation failed Seat may be reserved or invalid");
 				}
+
 				break;
 
 			case 3:
-				System.out.print("Enter seat number to delete reservation: ");
+				System.out.println("Enter seat number to delete reservation: ");
 				seatNumber = scanner.nextInt();
 
 				if (train.deleteSeat(seatNumber)) {
