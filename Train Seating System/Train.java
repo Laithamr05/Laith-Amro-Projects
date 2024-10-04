@@ -4,17 +4,18 @@ public class Train {
 	Seat seat = new Seat();
 
 	public Train() {
-		int seatNum = 1;
-		for (int i = 0; i < seats.length; i++) {
-			seats[i] = new Seat[i + 2];
-			for (int j = 0; j < seats[i].length; j++) {
-				while (!Seat.isValid(seatNum)) {
-					seatNum++;
-				}
+		seats = new Seat[23][];
 
-				seats[i][j] = new Seat();
-				seats[i][j].setSeatNumber(seatNum);
-				seatNum++;
+		for (int row = 0; row < seats.length; row++) {
+			if (row == 0)
+				seats[row] = new Seat[2];
+			else if (row == seats.length - 1)
+				seats[row] = new Seat[2];
+			else
+				seats[row] = new Seat[4];
+
+			for (int col = 0; col < seats[row].length; col++) {
+				seats[row][col] = new Seat();
 			}
 		}
 	}
@@ -44,10 +45,6 @@ public class Train {
 		int row = Seat.getRow(seatNumber);
 		int column = Seat.getColoumn(seatNumber);
 
-		if (row >= seats.length || column >= seats[row].length) {
-			return false;
-		}
-
 		if (!seats[row][column].isEmpty(seats[row][column].getPassengerName())) {
 			seats[row][column].setPassengerName(null);
 			return true;
@@ -64,44 +61,48 @@ public class Train {
 	}
 
 	public void print() {
-		for (int seatNumber = 1; seatNumber <= 92; seatNumber++) {
-			if (seatNumber == 3 || seatNumber == 4 || seatNumber == 89 || seatNumber == 90)
-				continue;
+		System.out.print("R\\C ");
+		for (int column = 1; column <= 4; column++)
+			System.out.printf("%-3d", column);
+		System.out.println();
 
-			int row1 = Seat.getRow(seatNumber);
-			int column1 = Seat.getColoumn(seatNumber);
+		for (int row = 0; row < seats.length; row++) {
+			System.out.printf("%-3d ", row + 1);
 
-			if (row1 < 0 || row1 >= seats.length || column1 < 0 || column1 >= seats[row1].length)
-				continue;
-
-			Seat seatSide1 = seats[row1][column1];
-			String seatSide1Status;
-
-			if (seatSide1.getPassengerName() == null || seatSide1.getPassengerName().isEmpty())
-				seatSide1Status = "O";
-			else
-				seatSide1Status = "X";
-
-			int seatNumber2 = seatNumber + 46;
-
-			if (seatNumber2 == 89 || seatNumber2 == 90)
-				continue;
-
-			int row2 = Seat.getRow(seatNumber2);
-			int column2 = Seat.getColoumn(seatNumber2);
-
-			if (row2 < 0 || row2 >= seats.length || column2 < 0 || column2 >= seats[row2].length)
-				continue;
-
-			Seat seatSide2 = seats[row2][column2];
-			String seat2Status;
-
-			if (seatSide2.getPassengerName() == null || seatSide2.getPassengerName().isEmpty())
-				seat2Status = "O";
-			else
-				seat2Status = "X";
-
-			System.out.printf("Seat %-3d %s    Seat %-3d %s\n", seatNumber, seatSide1Status, seatNumber2, seat2Status);
+			if (row == 0) {
+				for (int column = 0; column < 2; column++) {
+					if (column < seats[row].length) {
+						Seat seat = seats[row][column];
+						if (seat.isEmpty(seat.getPassengerName()))
+							System.out.printf("%-3s", "X");
+						else
+							System.out.printf("%-3s", "O");
+					}
+				}
+				System.out.printf("%-3s%-3s", " ", " ");
+			} else if (row == seats.length - 1) {
+				System.out.printf("%-3s%-3s", " ", " ");
+				for (int column = 2; column < 4; column++) {
+					if (column - 2 < seats[row].length) {
+						Seat seat = seats[row][column - 2];
+						if (seat.isEmpty(seat.getPassengerName()))
+							System.out.printf("%-3s", "X");
+						else
+							System.out.printf("%-3s", "O");
+					}
+				}
+			} else {
+				for (int column = 0; column < 4; column++) {
+					if (column < seats[row].length) {
+						Seat seat = seats[row][column];
+						if (seat.isEmpty(seat.getPassengerName()))
+							System.out.printf("%-3s", "X");
+						else
+							System.out.printf("%-3s", "O");
+					}
+				}
+			}
+			System.out.println();
 		}
 	}
 
